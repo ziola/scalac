@@ -1,0 +1,99 @@
+<article id="landing" class="jumbotron">
+  <h1>'Allo, 'Allo!</h1>
+  <p class="lead">
+    Yr YOLO Schlitz literally, locavore seitan banjo hella letterpress selvage 8-bit distillery tote bag aesthetic irony.
+    Banksy farm-to-table mlkshk, sartorial squid Austin cray jean shorts four loko church-key. Brunch synth small batch gluten-free.
+  </p>
+  <div>
+      <button class="btn btn-info sc-btn-block" ng-click="main.goToSlide('garageMap')"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> See other garages</button>
+      <button class="btn btn-default sc-btn-block" ng-click="main.goToSlide('addGarage')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add your garage</button>
+  </div>
+</article>
+
+<article id="garageMap" class="row">
+  <h4>Find our garages</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <ui-gmap-google-map center='main.map.center' zoom='main.map.zoom'></ui-gmap-google-map>
+    </div>
+  </div>
+</article>
+
+<article id="garageTable" class="row">
+  <h4>Our garages</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-grid="main.gridOptions" class="myGrid"></div>
+    </div>
+  </div>
+</article>
+
+<article id="addGarage">
+  <h4>Add your garage</h4>
+    <form>
+    <div class="row">
+      <div class="col-sm-12 col-md-8">
+        <div class="form-group">
+          <label for="garagesInput">Paste your garage</label>
+          <textarea id="garagesInput" class="form-control" rows="9"></textarea>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="form-control-static">Select value separator:</p>
+            <label class="radio-inline">
+              <input type="radio" name="separator" id="separator" value=","> Comma
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="separator" id="separator" value=";"> Semi-colon
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="separator" id="separator" value="<TAB>"> Tab
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <p class="form-control-static">Select longitude column:</p>
+            <select class="form-control" name="longColumn" id="longColumn">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <p class="form-control-static">Select latitude column:</p>
+            <select class="form-control" name="latColumn" id="latColumn">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p class="form-control-static">Select marker column:</p>
+            <select class="form-control" name="longColumn" id="longColumn">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button id="submitBtn" name="submitBtn" class="center-block btn btn-success btn-xlg sc-btn-block btn-submit">Submit</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</article>
