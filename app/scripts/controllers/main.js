@@ -14,10 +14,9 @@ angular.module('scalacApp')
       v: '3.17'
     });
   }])
-
   .filter('nameFilter', function(){
     return function nameFilter(input){
-      console.log(actual, expected);
+      return input;
     };
   })
   .controller('MainCtrl', ['$location', '$anchorScroll', 'uiGmapGoogleMapApi', function ($location, $anchorScroll, uiGmapGoogleMapApi) {
@@ -51,9 +50,9 @@ angular.module('scalacApp')
 
     this.gridOptions = {
       data : 'main.data',
-      columnDefs: [{
-        field: 'name', displayName: 'Name', cellFilter: 'main.nameFilter'
-      }]
+      // columnDefs: [{
+      //   field: 'name', displayName: 'Name', cellFilter: 'main.nameFilter'
+      // }]
     };
 
     this.goToSlide = function goToSlide(newHash) {
