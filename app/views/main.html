@@ -13,8 +13,39 @@
 <article id="garageMap" class="row">
   <h4>Find our garages</h4>
   <div class="row">
-    <div class="col-md-12">
-      <ui-gmap-google-map center='main.map.center' zoom='main.map.zoom'></ui-gmap-google-map>
+    <div class="col-md-8">
+      <ui-gmap-google-map center="main.map.center" zoom="main.map.zoom" options="main.mapOptions">
+        <ui-gmap-window show="main.windowOptions.show" options="main.windowOptions" closeClick="main.closeInfoWindowClick()" coords="main.selectedMarker" isIconVisibleOnClick="false">
+          <div>
+            {{main.selectedMarker.markerLabel}}
+          </div>
+        </ui-gmap-window>
+        <ui-gmap-markers models="main.garagesMarkers" coords="'self'" icon="'icon'"  idkey="main.garagesMarkers._id" click="main.openInfoWindowClick">
+        </ui-gmap-markers>
+      </ui-gmap-google-map>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+
+      </div>
+      <div class="row" ng-show="main.selectedGarage">
+        <div class="col-md-12">
+          <div class="thumbnail">
+            <img src="{{main.selectedGarage.photo}}" alt="{{main.selectedGarage.markerLabel}}">
+            <div class="caption">
+              <h2>{{main.selectedGarage.title}}</h2>
+              <h4>{{main.selectedGarage.founder}}</h4>
+              <address>
+                <strong>{{main.selectedGarage.name}}</strong><br>
+                {{main.selectedGarage.street}}<br/>
+                {{main.selectedGarage.city}}, {{main.selectedGarage.postal}}<br/>
+                {{main.selectedGarage.country}}<br/>
+                Home page: <a href="{{main.selectedGarage.homePage}}" target ="new">{{main.selectedGarage.homePage}}</a>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </article>
@@ -35,63 +66,59 @@
       <div class="col-sm-12 col-md-8">
         <div class="form-group">
           <label for="garagesInput">Paste your garage</label>
-          <textarea id="garagesInput" class="form-control" rows="9"></textarea>
+          <textarea id="garagesInput" class="form-control" rows="9" ng-model="main.newGarageData"></textarea>
         </div>
       </div>
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
-            <p class="form-control-static">Select value separator:</p>
-            <label class="radio-inline">
-              <input type="radio" name="separator" id="separator" value=","> Comma
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="separator" id="separator" value=";"> Semi-colon
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="separator" id="separator" value="<TAB>"> Tab
-            </label>
+            <div class="row">
+              <p class="form-control-static">Select value separator:</p>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-4">
+                <label class="radio-inline">
+                  <input type="radio" name="separator" id="separator" value="," ng-model="main.garageDataDelimiter"> Comma (,)
+                </label>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <label class="radio-inline">
+                  <input type="radio" name="separator" id="separator" value=";" ng-model="main.garageDataDelimiter"> Semi-colon (;)
+                </label>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <label class="radio-inline">
+                  <input type="radio" name="separator" id="separator" value="<TAB>" ng-model="main.garageDataDelimiter"> Tab (&lt;TAB&gt;)
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <p class="form-control-static">Select longitude column:</p>
-            <select class="form-control" name="longColumn" id="longColumn">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control" name="longColumn" id="longColumn" ng-model="main.longColumn" ng-options="main.columns.indexOf(column) as column for column in main.columns">
             </select>
           </div>
           <div class="col-md-6">
             <p class="form-control-static">Select latitude column:</p>
-            <select class="form-control" name="latColumn" id="latColumn">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control" name="latColumn" id="latColumn" ng-model="main.latColumn" ng-options="main.columns.indexOf(column) as column for column in main.columns">
             </select>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <p class="form-control-static">Select marker column:</p>
-            <select class="form-control" name="longColumn" id="longColumn">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control" name="longColumn" id="longColumn" ng-model="main.markerLabelColumn" ng-options="main.columns.indexOf(column) as column for column in main.columns">
             </select>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <button id="submitBtn" name="submitBtn" class="center-block btn btn-success btn-xlg sc-btn-block btn-submit">Submit</button>
+      <div class="col-md-12 action-row">
+        <button id="initGarageBtn" name="initGarageBtn" class="btn btn-success btn-xlg sc-btn-block btn-submit" ng-click="main.initGarage()">Init</button>
+        <button id="processGarageBtn" name="processGarageBtn" class="btn btn-success btn-xlg sc-btn-block btn-submit"ng-click="main.processGarage()" ng-disabled="main.disableSubmit">Submit</button>
       </div>
     </div>
     </form>
