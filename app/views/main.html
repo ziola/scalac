@@ -16,11 +16,24 @@
     <div class="col-md-8">
       <ui-gmap-google-map center="main.map.center" zoom="main.map.zoom" options="main.mapOptions">
         <ui-gmap-window show="main.windowOptions.show" options="main.windowOptions" closeClick="main.closeInfoWindowClick()" coords="main.selectedMarker" isIconVisibleOnClick="false">
-          <div>
-            {{main.selectedMarker.markerLabel}}
+          <div class="row">
+            <div class="col-md-12">
+                <div class="caption">
+                  <h2>{{main.selectedGarage.markerLabel}}</h2>
+                  <h4>{{main.selectedGarage.title}}</h4>
+                  <h4>{{main.selectedGarage.founder}}</h4>
+                  <address>
+                    <strong>{{main.selectedGarage.name}}</strong><br>
+                    {{main.selectedGarage.street}}<br/>
+                    {{main.selectedGarage.city}}, {{main.selectedGarage.postal}}<br/>
+                    {{main.selectedGarage.country}}<br/>
+                    <a href="{{main.selectedGarage.homePage}}" target ="new">{{main.selectedGarage.homePage}}</a>
+                  </address>
+              </div>
+            </div>
           </div>
         </ui-gmap-window>
-        <ui-gmap-markers models="main.garagesMarkers" coords="'self'" icon="'icon'"  idkey="main.garagesMarkers._id" click="main.openInfoWindowClick">
+        <ui-gmap-markers models="main.garageMarkers" coords="'self'" icon="'icon'"  idKey="'idKey'" click="main.openInfoWindowClick">
         </ui-gmap-markers>
       </ui-gmap-google-map>
     </div>
@@ -54,7 +67,48 @@
   <h4>Our garages</h4>
   <div class="row">
     <div class="col-md-12">
-      <div ng-grid="main.gridOptions" class="myGrid"></div>
+      <table st-table="main.garagesCollection" st-safe-src="main.garages" class="table table-striped">
+        <thead>
+          <tr>
+            <th st-sort="name" st-skip-natural="true">Company name</th>
+            <th st-sort="founder" st-skip-natural="true">Founders</th>
+            <th st-sort="street" st-skip-natural="true">Address</th>
+            <th st-sort="city" st-skip-natural="true">City</th>
+            <th st-sort="postal" st-skip-natural="true">Postal</th>
+            <th st-sort="country" st-skip-natural="true">Country</th>
+            <th st-sort="homePage" st-skip-natural="true">Home Page</th>
+            <th>Toogle marker</th>
+          </tr>
+          <tr>
+          <th colspan="8">
+            <input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr st-select-row="garage" st-select-mode="single" ng-repeat="garage in main.garagesCollection">
+            <td>{{garage.name}}</td>
+            <td>{{garage.founder}}</td>
+            <td>{{garage.street}}</td>
+            <td>{{garage.city}}</td>
+            <td>{{garage.postal}}</td>
+            <td>{{garage.country}}</td>
+            <td><a href="{{garage.homePage}}" target ="new">{{garage.homePage}}</a></td>
+            <td>
+              <button type="button" ng-click="main.toogleOnMap(garage)" class="btn btn-sm btn-danger">
+                <span class="sr-only">{{garage.visible ? "Hide" : "Show"}} on map</span><i class="glyphicon" ng-class="{'glyphicon-eye-close': garage.visible,  'glyphicon-eye-open': !garage.visible}"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="8" class="text-center">
+              <div st-pagination="" st-items-by-page="main.itemsPerPage" st-displayed-pages="main.pages">{{main.pages}}</div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
   </div>
 </article>

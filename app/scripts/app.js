@@ -17,7 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'uiGmapgoogle-maps',
-    'ngGrid'
+    'smart-table'
   ])
   .config(function ($routeProvider) {
     $routeProvider

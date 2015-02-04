@@ -1,3 +1,20 @@
+/*
+
+TODO:
+ - refactor code
+ - move code to appropriate files
+ - add better validation
+ - add correct texts
+ - better handle collections
+ - hide marker onClick
+ - make table more responsive
+ - allow to show markers only for current page
+ - clickable rows -> select marker on map
+ - add animation for scroll
+ - add inteliggent data parsing
+ - create more appealing UI
+
+*/
 'use strict';
 
 /**
@@ -28,17 +45,20 @@ angular.module('scalacApp')
     });
 
     this.disableSubmit = true;
+    this.itemsPerPage = 10;
+    this.pages = 1;
+
 
     this.columns = [];
-
+    this.garageMarkers = [];
     this.newGarageData = 'Id,Company Name,Founder,City,Country,Postal Code, Street,Photo,Home Page,Garage Latitude,Garage Longitude\n1,Google,Larry Page & Sergey Brin,Mountain View,USA,CA 94043,1600 Amphitheatre Pkwy,http://interviewsummary.com/wp-content/uploads/2013/07/larry-page-and-sergey-brin-of-google-620x400.jpg,http://google.com,37.457674,-122.163452\n2,Apple,Steve Jobs & Steve Wozniak,Cupertino,USA,CA 95014,1 Infinite Loop,http://i.dailymail.co.uk/i/pix/2013/02/08/article-2275512-172E13BB000005DC-732_634x505.jpg,http://apple.com,37.3403188,-122.0581469\n3,Microsoft,Bill Gates,Redmond,USA,WA 98052-7329,One Microsoft Way,http://postdefiance.com/wp-content/uploads/2013/02/bill-gates-microsoft-young.jpg,http://microsoft.com,37.472189,-122.190191';
     this.garageDataDelimiter = ',';
     this.longColumn = -1;
     this.latColumn = -1;
     this.markerLabelColumn = -1;
-    this.garagesMarkers = [];
     this.selectedGarage = null;
     this.selectedMarker = {};
+    this.garagesCollection = [].concat(this.garages);
     this.windowOptions = {
       show: false
     };
@@ -81,8 +101,8 @@ angular.module('scalacApp')
       var startIdx = this.garages.length;
       rows = rows.map(function(curr, idx){
         var data = curr.split(delimiter);
-        var garage =  {
-          '_id': startIdx + idx,
+        return {
+          'idKey': startIdx + idx,
           'id': data[0],
           'name': data[1],
           'founder': data[2],
@@ -94,17 +114,28 @@ angular.module('scalacApp')
           'homePage':data[8],
           'latitude':data[this.latColumn],
           'longitude': data[this.longColumn],
-          'markerLabel' : data[this.markerLabel || 1]
-          };
-          this.garagesMarkers.push(garage);
-          return garage;
-
+          'markerLabel' : data[this.markerLabel || 1],
+          'visible' : true
+        };
       }, this);
       Array.prototype.push.apply(this.garages, rows);
+      this.pages = Math.ceil(this.garages.length/this.itemsPerPage);
+      Array.prototype.push.apply(this.garageMarkers, rows);
 
       this.selectedGarage = this.garages[0];
 
       this.disableSubmit = true;
+    };
+
+    this.toogleOnMap = function toogleOnMap(garage){
+      if(garage.visible){
+        this.garageMarkers = this.garageMarkers.filter(function(marker){
+          return garage.idKey !== marker.idKey;
+        });
+      } else {
+        this.garageMarkers.push(garage);
+      }
+      garage.visible = !garage.visible;
     };
 
     this.initGarage = function initGarage(){
@@ -161,13 +192,6 @@ angular.module('scalacApp')
     };
 
     this.garages = [];
-
-    this.gridOptions = {
-      data : 'main.garages',
-      // columnDefs: [{
-      //   field: 'name', displayName: 'Name', cellFilter: 'main.nameFilter'
-      // }]
-    };
 
     this.goToSlide = function goToSlide(newHash) {
       if($location.hash() !== newHash) {
