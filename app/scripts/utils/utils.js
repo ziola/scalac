@@ -1,5 +1,5 @@
+'use strict';
 angular.module('scalacApp')
-
   .service('Utils',[function(){
     this.equalTo = function equalTo(object, prop){
       return function(curr){
@@ -22,4 +22,4 @@ angular.module('scalacApp')
         return idx;
       };
     };
-  }])
+  }]);

@@ -4,16 +4,12 @@ TODO:
  - add tests!!!
  - add better validation
  - add correct texts
- - make table more responsive
  - allow to show markers only for current page
- - clickable rows -> select marker on map
- - add animation for scroll
  - add intelligent data parsing
  - create more appealing UI
 
 */
 'use strict';
-
 /**
  * @ngdoc function
  * @name scalacApp.controller:MainCtrl
@@ -21,14 +17,6 @@ TODO:
  * # MainCtrl
  * Controller of the scalacApp
  */
-
-Array.prototype.contains = function contains(value){
-  return this.indexOf(value) !== -1;
-};
-
-String.prototype.contains = function contains(value){
-  return this.indexOf(value) !== -1;
-};
 
 angular.module('scalacApp')
   .controller('MainCtrl', ['$scope', '$location', '$anchorScroll', 'uiGmapGoogleMapApi', 'GarageSvc', 'MapSvc', 'Constants', function ($scope, $location, $anchorScroll, uiGmapGoogleMapApi, GarageSvc, MapSvc, Constants) {
@@ -87,7 +75,10 @@ angular.module('scalacApp')
       garagesCollection : [].concat(this.garages),
       itemsPerPage : 10,
       pages : 1,
-      toogleOnMap : MapSvc.toogleOnMap(this.map)
+      toogleOnMap : MapSvc.toogleOnMap(this.map),
+      select : (function selectClick(garage) {
+        MapSvc.markerClickHandler(this.map, garage);
+      }).bind(this),
     };
 
     this.goToSlide = function goToSlide(newHash) {

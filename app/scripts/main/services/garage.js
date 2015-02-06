@@ -1,23 +1,25 @@
+'use strict';
 angular.module('scalacApp')
   .service('GarageSvc', ['_', 'Utils', 'Constants', function(_, Utils, Constants){
     var parse = function parseGarage(startIdx, delimiter, columnIdx){
       return function(curr, idx){
         var data = curr.split(delimiter);
         return {
-          'idKey': startIdx + idx,
-          'id': data[0],
-          'name': data[1],
-          'founder': data[2],
-          'city': data[3],
-          'country': data[4],
-          'postal': data[5],
-          'street': data[6],
-          'photo': data[7],
-          'homePage':data[8],
-          'latitude':data[columnIdx.latColumn],
-          'longitude': data[columnIdx.longColumn],
-          'markerLabel' : data[columnIdx.markerLabel || 1],
-          'visible' : true
+          idKey : startIdx + idx,
+          id : data[0],
+          name : data[1],
+          founder : data[2],
+          city : data[3],
+          country : data[4],
+          postal : data[5],
+          street : data[6],
+          photo : data[7],
+          homePage :data[8],
+          latitude : data[columnIdx.latColumn],
+          longitude : data[columnIdx.longColumn],
+          markerLabel : data[columnIdx.markerLabel || 1],
+          visible : true,
+          selected : false
         };
       };
     };
