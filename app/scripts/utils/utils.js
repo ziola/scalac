@@ -1,14 +1,14 @@
 'use strict';
 angular.module('scalacApp')
   .service('Utils',[function(){
-    this.equalTo = function equalTo(object, prop){
+    this.notEqualTo = function notEqualTo(object, prop){
       return function(curr){
         return object[prop] !== curr[prop];
       };
     };
 
-    this.isNotEmpty = function isNotEmpty(header){
-        return !!header;
+    this.isNotEmpty = function isNotEmpty(value){
+        return !!value;
     };
 
     this.getContatiningIndex = function getContatiningIndex(name){

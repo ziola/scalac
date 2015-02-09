@@ -1,29 +1,27 @@
 'use strict';
 angular.module('scalacApp')
-  .service('MapSvc', ['_', 'Utils', function(_, Utils){
-    this.toogleOnMap = function toogleOnMap(map){
-     return (function toogleMarker(marker){
-       marker.visible ? this.hideMarker(map, marker) : this.showMarker(map, marker);
-       marker.visible = !marker.visible;
-     }).bind(this);
+  .service('MapSvc', ['Utils', function(Utils){
+    this.toogleMarker = function toogleMarker(map, marker){
+     marker.visible ? this.removeMarker(map, marker) : this.addMarker(map, marker);
+     marker.visible = !marker.visible;
     };
 
-    this.showMarker = function showMarker(map, marker){
+    this.addMarker = function addMarker(map, marker){
       map.markers.push(marker);
     };
 
-    this.hideMarker = function hideMarker(map, marker){
-      map.markers = map.markers.filter(Utils.equalTo(marker, 'idKey'));
+    this.removeMarker = function removeMarker(map, marker){
+      map.markers = map.markers.filter(Utils.notEqualTo(marker, 'idKey'));
     };
 
-    this.markerClickHandler = (function markerClickHandler(map, model) {
+    this.openInfoWindow = function openInfoWindow(map, model) {
       map.selected = model;
       map.windowOptions.show = true;
-    }).bind(this);
+    };
 
-    this.closeInfoWindowClickHandler = (function closeInfoWindowClickHandler(map){
+    this.closeInfoWindow = function closeInfoWindow(map){
       map.selected = null;
       map.windowOptions.show = false;
-    }).bind(this);
+    };
 
   }]);

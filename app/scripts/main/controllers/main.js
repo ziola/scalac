@@ -1,7 +1,6 @@
 /*
 
 TODO:
- - add tests!!!
  - add better validation
  - add correct texts
  - allow to show markers only for current page
@@ -25,6 +24,14 @@ angular.module('scalacApp')
     this.garages = [];
 
     //map controls
+    var openInfoWindowClick = function openInfoWindowClick(Y) {
+      MapSvc.openInfoWindow(this.map, Y.model);
+    };
+
+    var closeInfoWindowClick = function closeInfoWindowClick() {
+      MapSvc.closeInfoWindow(this.map);
+    };
+
     this.map = {
       selected : null,
       markers : [],
@@ -36,15 +43,25 @@ angular.module('scalacApp')
         longitude : -122.0581469
       },
       zoom : 10,
-      openInfoWindowClick : (function openInfoWindowClick(Y) {
-        MapSvc.markerClickHandler(this.map, Y.model);
-      }).bind(this),
-      closeInfoWindowClick : (function closeInfoWindowClick() {
-        MapSvc.closeInfoWindowClickHandler(this.map);
-      }).bind(this)
+      openInfoWindowClick : openInfoWindowClick.bind(this),
+      closeInfoWindowClick : closeInfoWindowClick.bind(this)
     };
 
     //form controls
+    var processGarage = function processGarage(){
+      var rows = GarageSvc.parseData(this.form, this.garages.length);
+      Array.prototype.push.apply(this.garages, rows);
+      Array.prototype.push.apply(this.map.markers, rows);
+      this.list.pages = Math.ceil(this.garages.length/this.list.itemsPerPage);
+      this.form.disableSubmit = true;
+    };
+
+    var initGarage = function initGarage(){
+      this.form.columns = GarageSvc.parseHeader(this.form);
+      this.form.columnIdx = GarageSvc.getDefaultColumnsIdx(this.form.columns);
+      this.form.disableSubmit = !this.form.columns.length;
+    };
+
     this.form = {
       delimiters: Constants.separators,
       columns : [],
@@ -56,29 +73,25 @@ angular.module('scalacApp')
         latColumn : -1,
         markerLabelColumn : -1
       },
-      processGarage : (function processGarage(){
-        var rows = GarageSvc.parseData(this.form, this.garages.length);
-        Array.prototype.push.apply(this.garages, rows);
-        Array.prototype.push.apply(this.map.markers, rows);
-        this.list.pages = Math.ceil(this.garages.length/this.list.itemsPerPage);
-        this.form.disableSubmit = true;
-      }).bind(this),
-      initGarage : (function initGarage(){
-        this.form.columns = GarageSvc.parseHeader(this.form);
-        this.form.columnIdx = GarageSvc.getDefaultColumnsIdx(this.form.columns);
-        this.form.disableSubmit = !this.form.columns.length;
-      }).bind(this)
+      processGarage : processGarage.bind(this),
+      initGarage : initGarage.bind(this)
     };
 
     //list controls
+    var toogleOnMap = function toogleOnMap(marker){
+      MapSvc.toogleMarker(this.map, marker);
+    };
+
+    var selectClick = function selectClick(garage) {
+      MapSvc.openInfoWindow(this.map, garage);
+    };
+
     this.list = {
       garagesCollection : [].concat(this.garages),
       itemsPerPage : 10,
       pages : 1,
-      toogleOnMap : MapSvc.toogleOnMap(this.map),
-      select : (function selectClick(garage) {
-        MapSvc.markerClickHandler(this.map, garage);
-      }).bind(this),
+      toogleOnMap : toogleOnMap.bind(this),
+      select : selectClick.bind(this),
     };
 
     this.goToSlide = function goToSlide(newHash) {

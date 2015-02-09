@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Utils: extend build-in objects', function () {
+describe('extends.js: extend build-in objects', function () {
 
   it('should attach contains to Array.prototype', function () {
     expect(Array.prototype.contains).toBeDefined();

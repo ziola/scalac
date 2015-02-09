@@ -14,7 +14,7 @@ angular.module('scalacApp')
           postal : data[5],
           street : data[6],
           photo : data[7],
-          homePage :data[8],
+          homePage : data[8],
           latitude : data[columnIdx.latColumn],
           longitude : data[columnIdx.longColumn],
           markerLabel : data[columnIdx.markerLabel || 1],
