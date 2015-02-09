@@ -1,0 +1,38 @@
+<article id="garageMap" class="row" ng-controller="MapController as mapCtrl">
+  <h4>Find our garages</h4>
+  <div class="row">
+    <section ng-class="{'col-md-8' : mapCtrl.selected , 'col-md-12' : !mapCtrl.selected}">
+      <ui-gmap-google-map center="mapCtrl.center" zoom="mapCtrl.zoom" options="mapCtrl.mapOptions">
+        <ui-gmap-window show="mapCtrl.windowOptions.show" options="mapCtrl.windowOptions" closeClick="mapCtrl.closeInfoWindowClick()" coords="mapCtrl.selected">
+          <div class="row">
+            <div class="col-md-12">
+              <h2>{{mapCtrl.selected.markerLabel}}</h2>
+            </div>
+          </div>
+        </ui-gmap-window>
+        <ui-gmap-markers models="mapCtrl.markers" coords="'self'" icon="'icon'"  idKey="'idKey'" click="mapCtrl.openInfoWindowClick">
+        </ui-gmap-markers>
+      </ui-gmap-google-map>
+    </section>
+    <section  ng-class="{'col-md-4' : mapCtrl.selected , 'col-md-12' : !mapCtrl.selected}">
+      <div class="row" ng-show="mapCtrl.selected">
+        <div class="col-md-12">
+          <div class="thumbnail">
+            <img src="{{mapCtrl.selected.photo}}" alt="{{mapCtrl.selected.markerLabel}}">
+            <div class="caption">
+              <h2>{{mapCtrl.selected.title}}</h2>
+              <h4>{{mapCtrl.selected.founder}}</h4>
+              <address>
+                <strong>{{mapCtrl.selected.name}}</strong><br>
+                {{mapCtrl.selected.street}}<br/>
+                {{mapCtrl.selected.city}}, {{mapCtrl.selected.postal}}<br/>
+                {{mapCtrl.selected.country}}<br/>
+                <a href="{{mapCtrl.selected.homePage}}" target ="new">{{mapCtrl.selected.homePage}}</a>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>

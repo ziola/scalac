@@ -1,0 +1,56 @@
+<article id="addGarage" class="row" ng-controller="GarageFormController as formCtrl">
+  <h2>Register company</h2>
+  <form>
+    <section class="row">
+      <section class="col-sm-12 col-md-8">
+        <div class="form-group">
+          <label for="garagesInput">Paste your company</label>
+          <textarea id="garagesInput" class="form-control" rows="9" ng-model="formCtrl.newGarageData"></textarea>
+        </div>
+      </section>
+      <section class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="form-control-static">Select column separator:</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-xs-4" ng-repeat="separator in formCtrl.delimiters">
+                <label class="radio-inline">
+                  <input type="radio" name="separator" id="separator" value="{{separator.value}}" ng-model="formCtrl.delimiter"> {{separator.name}} ({{separator.value}})
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <p class="form-control-static">Select longitude column:</p>
+            <select class="form-control" name="longColumn" id="longColumn" ng-model="formCtrl.columnIdx.longColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
+            </select>
+          </div>
+          <div class="col-md-6">
+            <p class="form-control-static">Select latitude column:</p>
+            <select class="form-control" name="latColumn" id="latColumn" ng-model="formCtrl.columnIdx.latColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p class="form-control-static">Select marker column:</p>
+            <select class="form-control" name="longColumn" id="longColumn" ng-model="formCtrl.columnIdx.markerLabelColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
+            </select>
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="row">
+      <div class="col-md-12 action-row">
+        <button id="initGarageBtn" name="initGarageBtn" class="btn btn-info btn-xlg sc-btn-block btn-submit" ng-click="formCtrl.initGarage()">Process header</button>
+        <button id="processGarageBtn" name="processGarageBtn" class="btn btn-success btn-xlg sc-btn-block btn-submit" ng-click="formCtrl.processGarage()" ng-disabled="formCtrl.disableSubmit">Submit</button>
+      </div>
+    </section>
+  </form>
+</article>
