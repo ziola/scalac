@@ -1,4 +1,4 @@
-<article id="addGarage" class="row" ng-controller="GarageFormController as formCtrl">
+<!-- <article id="addGarage" class="row" ng-controller="GarageFormController as formCtrl"> -->
   <h2>Register company</h2>
   <form>
     <section class="row">
@@ -13,7 +13,7 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-12">
-                <p class="form-control-static">Select column separator:</p>
+                <p class="form-control-static">Column separator:</p>
               </div>
             </div>
             <div class="row">
@@ -27,19 +27,19 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <p class="form-control-static">Select longitude column:</p>
+            <p class="form-control-static">Longitude column:</p>
             <select class="form-control" name="longColumn" id="longColumn" ng-model="formCtrl.columnIdx.longColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
             </select>
           </div>
           <div class="col-md-6">
-            <p class="form-control-static">Select latitude column:</p>
+            <p class="form-control-static">Latitude column:</p>
             <select class="form-control" name="latColumn" id="latColumn" ng-model="formCtrl.columnIdx.latColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
             </select>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <p class="form-control-static">Select marker column:</p>
+            <p class="form-control-static">Marker column:</p>
             <select class="form-control" name="longColumn" id="longColumn" ng-model="formCtrl.columnIdx.markerLabelColumn" ng-options="formCtrl.columns.indexOf(column) as column for column in formCtrl.columns">
             </select>
           </div>
@@ -53,4 +53,4 @@
       </div>
     </section>
   </form>
-</article>
+<!-- </article> -->
