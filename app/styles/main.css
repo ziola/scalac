@@ -120,3 +120,6 @@ article > h2 {
   margin-bottom: 20px;
   margin-left: 25px;
 }
+.lead {
+  line-height: 1.8em;
+}
